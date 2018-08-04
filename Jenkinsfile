@@ -33,7 +33,7 @@ pipeline {
                 sh 'echo "Building AMI ..."'
                 sh 'rm -f output.txt'
                 sh 'echo "${APP_NAME} ${VERSION}"'
-//                sh 'packer build -var 'app_name='${APP_NAME} -var 'version='${VERSION} build-ami.json'
+                sh 'packer build -var 'app_name='"${APP_NAME}" -var 'version='"${VERSION}" build-ami.json'
 //                sh 'packer build -force ${WORKSPACE}/config/packer/build-ami.json 2>&1 | tee output.txt'
 //                sh 'AMI_ID=$(tail -2 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }')'
 //                sh 'aws ssm put-parameter --name "/simulcast/ami/base_ami_id" --value "${AMI_ID}" --type String --region us-east-1 --overwrite'
@@ -47,9 +47,12 @@ pipeline {
                 sh '''cd ${WORKSPACE}/config/terraform
 pwd
 ls -altr
+rm -f terraform.tfvars
 echo "app_name = "${APP_NAME}"" >>terraform.tfvars
 echo "version = "${VERSION}"" >>terraform.tfvars
-cat terraform.tfvars'''
+cat terraform.tfvars
+terraform init
+terraform apply'''
            }
        }
     }
