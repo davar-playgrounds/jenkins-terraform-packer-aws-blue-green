@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'master' }
     environment { 
-        VERSION = '1.0.'${BUILD_NUMBER}
+        VERSION = '1.0.'"${BUILD_NUMBER}"
         APP_NAME = 'demo_app'
     }
     stages {
@@ -32,7 +32,8 @@ pipeline {
             steps {
                 sh 'echo "Building AMI ..."'
                 sh 'rm -f output.txt'
-                packer build -var 'app_name='${APP_NAME} -var 'version='${VERSION} build-ami.json
+                sh echo "${APP_NAME} ${VERSION}"
+//                packer build -var 'app_name='${APP_NAME} -var 'version='${VERSION} build-ami.json
 //                sh 'packer build -force ${WORKSPACE}/config/packer/build-ami.json 2>&1 | tee output.txt'
 //                sh 'AMI_ID=$(tail -2 output.txt | head -2 | awk 'match($0, /ami-.*/) { print substr($0, RSTART, RLENGTH) }')'
 //                sh 'aws ssm put-parameter --name "/simulcast/ami/base_ami_id" --value "${AMI_ID}" --type String --region us-east-1 --overwrite'
