@@ -3,11 +3,11 @@
     "min_packer_version": "0.11.0",
     "variables": {
         "aws_region": "us-east-1",
-        "aws_vpc": null,
-        "aws_subnet": null,
+        "aws_vpc": "vpc-c9238bb2",
+        "aws_subnet": "subnet-cf6864ab",
         "ssh_username": "centos",
         "aws_acct": "816913093305",
-        "app_name": "demo_app",
+        "app_name": "null",
         "version": "null"
     },
     "builders": [
