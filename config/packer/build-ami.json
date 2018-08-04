@@ -1,0 +1,66 @@
+{
+    "description": "Copy the centos.org CentOS 7 AMI into our account so that we can add boot volume encryption.",
+    "min_packer_version": "0.11.0",
+    "variables": {
+        "aws_region": "us-east-1",
+        "aws_vpc": null,
+        "aws_subnet": null,
+        "ssh_username": "centos",
+        "aws_acct": "816913093305",
+        "app_name": "demo_app",
+        "version": "null"
+    },
+    "builders": [
+        {
+            "type": "amazon-ebs",
+            "ami_name": "{{user `app_name`}}-{{user `version`}}",
+            "ami_description": "{{user `app_name`}}-{{user `version`}}-{{timestamp}}",
+            "instance_type": "t2.micro",
+            "region": "{{user `aws_region`}}",
+            "vpc_id": "{{user `aws_vpc`}}",
+            "subnet_id": "{{user `aws_subnet`}}",
+            "source_ami_filter": {
+                "filters": {
+                    "owner-alias": "aws-marketplace",
+                    "product-code": "aw0evgkw8e5c1q413zgy5pjce",
+                    "virtualization-type": "hvm"
+                },
+                "most_recent": true
+            },
+            "ami_virtualization_type": "hvm",
+            "ssh_username": "{{user `ssh_username`}}",
+            "associate_public_ip_address": true,
+            "tags": {
+                "Name": "{{user `app_name`}}",
+                "Version": "{{user `version`}}"
+            },
+            "encrypt_boot": false,
+            "ami_block_device_mappings": [
+                {
+                    "device_name": "/dev/sda1",
+                    "volume_type": "gp2",
+                    "volume_size": 8,
+                    "encrypted": false,
+                    "delete_on_termination": true
+                }
+            ],
+            "communicator": "ssh",
+            "ssh_pty": true
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "execute_command": "sudo -S sh '{{.Path}}'",
+            "inline_shebang": "/bin/sh -e -x",
+            "inline": [
+                "sudo yum update -y",
+                "echo '** Shreding sensitive data ...'",
+                "shred -u /etc/ssh/*_key /etc/ssh/*_key.pub",
+                "shred -u /root/.*history /home/{{user `ssh_username`}}/.*history",
+                "shred -u /root/.ssh/authorized_keys /home/{{user `ssh_username`}}/.ssh/authorized_keys",
+                "sync; sleep 1; sync"
+            ]
+        }
+    ]
+}
