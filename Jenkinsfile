@@ -49,8 +49,7 @@ pwd
 ls -altr
 echo "app_name = "${APP_NAME}"" >>terraform.tfvars
 echo "version = "${VERSION}"" >>terraform.tfvars
-//terraform init
-//terraform apply'''
+cat terraform.tfvars'''
            }
        }
 
