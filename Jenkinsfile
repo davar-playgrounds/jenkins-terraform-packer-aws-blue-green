@@ -47,8 +47,8 @@ packer build -var 'app_name='"${APP_NAME}" -var 'version='"${VERSION}" build-ami
 pwd
 ls -altr
 rm -f terraform.tfvars
-echo "app_name = \"${APP_NAME}\"" >>terraform.tfvars
-echo "version = \"${VERSION}\"" >>terraform.tfvars
+echo "app_name = "\"${APP_NAME}\""" >>terraform.tfvars
+echo "version = "\"${VERSION}\""" >>terraform.tfvars
 cat terraform.tfvars
 terraform init
 terraform apply'''
