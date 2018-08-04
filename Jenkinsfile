@@ -1,8 +1,8 @@
 pipeline {
     agent { label 'master' }
     environment { 
-        VERSION = '1.0.'"${BUILD_NUMBER}"
-        APP_NAME = 'demo_app'
+        VERSION = "1.0.${BUILD_NUMBER}"
+        APP_NAME = "demo_app"
     }
     stages {
         stage ('Initialize') {
