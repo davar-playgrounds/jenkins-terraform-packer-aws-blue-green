@@ -40,14 +40,12 @@ aws ssm put-parameter --name "/${APP_NAME}/ami/${VERSION}" --value "${AMI_ID}" -
        }
 
         stage('Deploy to E2E') {
-        environment {
-            AMI=$(aws ssm get-parameters --names "/${APP_NAME}/ami/${VERSION}" --type String --region us-east-1) 
-    }
             steps {
                 sh 'echo "Deploying to E2E"'
                 sh '''cd ${WORKSPACE}/config/terraform
 pwd
 ls -altr
+AMI=$(aws ssm get-parameters --names "/${APP_NAME}/ami/${VERSION}" --type String --region us-east-1)
 rm -f terraform.tfvars
 echo 'app_name = "'${APP_NAME}'"' >>terraform.tfvars
 echo 'version = "'${VERSION}'"' >>terraform.tfvars
