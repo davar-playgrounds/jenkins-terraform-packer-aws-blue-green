@@ -45,7 +45,7 @@ aws ssm put-parameter --name "/${APP_NAME}/ami/${VERSION}" --value "${AMI_ID}" -
                 sh '''cd ${WORKSPACE}/config/terraform
 pwd
 ls -altr
-AMI=$(aws ssm get-parameters --names "/${APP_NAME}/ami/${VERSION}" --type String --region us-east-1)
+AMI=$(aws ssm get-parameters --names "/${APP_NAME}/ami/${VERSION}" --type String --region us-east-1 | jq -r '.Parameters[].Value')
 rm -f terraform.tfvars
 echo 'app_name = "'${APP_NAME}'"' >>terraform.tfvars
 echo 'version = "'${VERSION}'"' >>terraform.tfvars
