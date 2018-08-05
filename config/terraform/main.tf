@@ -99,7 +99,7 @@ resource "aws_autoscaling_group" "asg-app" {
 
 ### Creating ELB
 resource "aws_elb" "elb-app" {
-  name            = "elb-demo-app-${var.version}"
+  name            = "elb-demo-app-${var.ami_name}"
   security_groups = ["sg-c29d7c8f"]
 
   #  availability_zones = ["us-east-1a", "us-east-1b"]
