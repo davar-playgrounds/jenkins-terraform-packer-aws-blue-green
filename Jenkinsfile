@@ -23,14 +23,22 @@ pipeline {
 
         stage ('Test') {
             steps {
-                sh 'echo "This is where we would add the tests"'
+              parallel(
+                unit_tests: {
+                  sh 'echo "Running unit test"'
+                   },
+                integration_tests: {
+                 sh 'echo "Running integration test"
+                }
+               )
+
             }
         }
 
         stage('Build AMI') {
             steps {
               parallel(
-                build_ami: {
+                packer_build: {
                   sh 'echo "Building AMI ..."'
                   sh 'rm -f output.txt'
                   sh 'echo "${APP_NAME} ${VERSION}"'
