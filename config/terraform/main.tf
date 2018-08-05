@@ -129,3 +129,20 @@ resource "aws_elb" "elb-app" {
     owner       = "Jeff Miller"
   }
 }
+
+### Creating Route 53 DNS Update
+data "aws_route53_zone" "r53-demo-app" {
+  name = "opswerk.com."
+}
+
+resource "aws_route53_record" "r53-demo-app" {
+  zone_id = "${data.aws_route53_zone.r53-demo-app.zone_id}"
+  name    = "app.yourdomain.com"
+  type    = "A"
+
+  alias {
+    name                   = "dualstack.${aws_elb.elb-app.dns_name}"
+    zone_id                = "${aws_elb.elb-app.zone_id}"
+    evaluate_target_health = false
+  }
+}
