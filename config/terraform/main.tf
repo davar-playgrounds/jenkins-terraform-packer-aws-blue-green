@@ -126,6 +126,7 @@ resource "aws_elb" "elb-app" {
     lb_port            = 443
     lb_protocol        = "https"
     ssl_certificate_id = "arn:aws:acm:us-east-1:816913093305:certificate/80676f27-5b6f-4a32-b518-082482e8dacf"
+}
 
   tags {
     Name        = "app-elb"
