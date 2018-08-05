@@ -28,7 +28,7 @@ pipeline {
                   sh 'echo "Running unit test"'
                    },
                 integration_tests: {
-                 sh 'echo "Running integration test"
+                 sh 'echo "Running integration test"'
                 }
                )
 
