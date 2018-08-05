@@ -59,14 +59,13 @@ terraform apply -auto-approve'''
         stage('User Input') {
             input {
                 message "Deploy to Production?"
-                ok "Yes Deploy"
-                submitter "yes"
+                ok "Deploy"
                 parameters {
-                    string(name: 'DEPLOY', defaultValue: '', description: 'Type "yes" to deploy to Production environment.')
+                    choice(name: 'DEPLOY', choices: 'yes', description: 'Type "yes" to deploy to Production environment.')
                 }
             }
             steps {
-                echo "Deploying to Production because you typed: ${DEPLOY}"
+                echo "Deploying to Production because you chose: ${DEPLOY}"
             }
         }
 
