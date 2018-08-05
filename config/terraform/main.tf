@@ -137,7 +137,7 @@ data "aws_route53_zone" "r53-demo-app" {
 
 resource "aws_route53_record" "r53-demo-app" {
   zone_id = "${data.aws_route53_zone.r53-demo-app.zone_id}"
-  name    = "app.yourdomain.com"
+  name    = "app.opswerk.com"
   type    = "A"
 
   alias {
