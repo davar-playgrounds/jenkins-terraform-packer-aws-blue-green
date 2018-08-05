@@ -59,14 +59,14 @@ terraform apply -auto-approve'''
         stage('User Input') {
             input {
                 message "Deploy to Production?"
-                ok "Yes, we should."
-                submitter "alice,bob"
+                ok "Yes Deploy"
+                submitter "yes"
                 parameters {
-                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                    string(name: 'DEPLOY', defaultValue: '', description: 'Type "yes" to deploy to Production environment.')
                 }
             }
             steps {
-                echo "Hello, ${PERSON}, nice to meet you."
+                echo "Deploying to Production because you typed: ${DEPLOY}"
             }
         }
 
